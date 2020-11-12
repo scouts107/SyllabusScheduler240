@@ -87,6 +87,7 @@ public class Frame {
 		springLayout.putConstraint(SpringLayout.EAST, dailyNotes, -177, SpringLayout.EAST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, dailyNotes, -31, SpringLayout.SOUTH, frame.getContentPane());
 		frame.getContentPane().add(dailyNotes);
+		dailyNotes.setEditable(false);
 		
 		JButton dayEdit = new JButton("Edit");
 		springLayout.putConstraint(SpringLayout.NORTH, dayEdit, 0, SpringLayout.NORTH, dailyNotes);
@@ -95,10 +96,12 @@ public class Frame {
 		
 		JButton daySubmit = new JButton("Submit");
 		springLayout.putConstraint(SpringLayout.NORTH, daySubmit, 12, SpringLayout.SOUTH, dayEdit);
+		springLayout.putConstraint(SpringLayout.EAST, dayEdit, 0, SpringLayout.EAST, daySubmit);
 		springLayout.putConstraint(SpringLayout.WEST, daySubmit, 21, SpringLayout.EAST, dailyNotes);
 		frame.getContentPane().add(daySubmit);
 		
 		className = new JTextField();
+		className.setBackground(Color.WHITE);
 		springLayout.putConstraint(SpringLayout.NORTH, className, 10, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, className, -297, SpringLayout.SOUTH, frame.getContentPane());
 		frame.getContentPane().add(className);
@@ -107,6 +110,7 @@ public class Frame {
 		className.setEditable(false);
 		
 		weekTopic = new JTextField();
+		weekTopic.setBackground(Color.WHITE);
 		springLayout.putConstraint(SpringLayout.WEST, className, 0, SpringLayout.WEST, weekTopic);
 		springLayout.putConstraint(SpringLayout.NORTH, weekTopic, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, weekTopic, 38, SpringLayout.SOUTH, className);
@@ -198,16 +202,18 @@ public class Frame {
 		dayLabel.setColumns(10);
 		
 		//create listeners for actions
+		//sets week to week chosen by user and displays notes
 		weekList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				week = weekList.getSelectedIndex();
-				weekTopic.setText(s.getWeek(week).getTopic());
-				if (week < 20 && day < 7) {
+				weekTopic.setText(s.weeks[week].getTopic());
+				if (day < 7) {
 					dailyNotes.setText(s.getWeek(week).getDay(day));
 				}
 			}
 		});
+		//sets day to one chosen by user and displays notes
 		dayList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -217,12 +223,14 @@ public class Frame {
 				}
 			}
 		});
+		//allows you to edit text pane
 		dayEdit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dailyNotes.setEditable(true);
 			}
 		});
+		//submits string from text pane into day chosen
 		daySubmit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -230,25 +238,14 @@ public class Frame {
 				dailyNotes.setEditable(false);
 			}
 		});
+		//allows you to edit Class name text
 		nameEdit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				className.setEditable(true);
 			}
 		});
-		topicEdit.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				weekTopic.setEditable(true);
-			}
-		});
-		topicSubmit.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				s.weeks[week].setTopic(weekTopic.getText());
-				weekTopic.setEditable(false);
-			}
-		});
+		//submits Class name string to syllabus name
 		nameSubmit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -256,8 +253,17 @@ public class Frame {
 				className.setEditable(false);
 			}
 		});
-		topicSubmit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		//allows to edit the weekly topic field
+		topicEdit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				weekTopic.setEditable(true);
+			}
+		});
+		//submits the edit made to the weekly topic field to selected week
+		topicSubmit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				s.weeks[week].setTopic(weekTopic.getText());
 				weekTopic.setEditable(false);
 			}
