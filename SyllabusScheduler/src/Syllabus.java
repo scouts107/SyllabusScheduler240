@@ -7,6 +7,8 @@ public class Syllabus {
 	
 	private Syllabus() {
 		weeks = new Week[17];
+		s= "This is a string";
+		name = "Name";
 	}
 	public static Syllabus getInstance() {
 		if(syllabus == null)
