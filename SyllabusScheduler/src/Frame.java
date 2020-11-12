@@ -36,7 +36,7 @@ public class Frame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void myFrame(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
