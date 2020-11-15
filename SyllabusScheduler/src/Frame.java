@@ -25,6 +25,8 @@ public class Frame {
 	private Syllabus s = Syllabus.getInstance();
 	private int week = 100;
 	private int day = 8;
+	private Originator origin = new Originator(); 
+	private CareTaker taker = new CareTaker();
 	private JTextField className;
 	private JTextField weekTopic;
 	private JTextField classLabel;
@@ -99,6 +101,7 @@ public class Frame {
 		springLayout.putConstraint(SpringLayout.EAST, dayEdit, 0, SpringLayout.EAST, daySubmit);
 		springLayout.putConstraint(SpringLayout.WEST, daySubmit, 21, SpringLayout.EAST, dailyNotes);
 		frame.getContentPane().add(daySubmit);
+		daySubmit.setVisible(false);
 		
 		className = new JTextField();
 		className.setBackground(Color.WHITE);
@@ -138,12 +141,14 @@ public class Frame {
 		springLayout.putConstraint(SpringLayout.EAST, nameSubmit, -67, SpringLayout.EAST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.NORTH, nameSubmit, 10, SpringLayout.NORTH, frame.getContentPane());
 		frame.getContentPane().add(nameSubmit);
+		nameSubmit.setVisible(false);
 		
 		JButton topicSubmit = new JButton("Submit");
 		springLayout.putConstraint(SpringLayout.NORTH, topicSubmit, 22, SpringLayout.SOUTH, nameSubmit);
 		springLayout.putConstraint(SpringLayout.WEST, topicSubmit, 21, SpringLayout.EAST, topicEdit);
 		springLayout.putConstraint(SpringLayout.EAST, topicSubmit, 0, SpringLayout.EAST, nameSubmit);
 		frame.getContentPane().add(topicSubmit);
+		topicSubmit.setVisible(false);
 		
 		classLabel = new JTextField();
 		springLayout.putConstraint(SpringLayout.NORTH, classLabel, 16, SpringLayout.NORTH, frame.getContentPane());
@@ -201,6 +206,18 @@ public class Frame {
 		frame.getContentPane().add(dayLabel);
 		dayLabel.setColumns(10);
 		
+		JButton resetBtn = new JButton("Reset Weeks");
+		springLayout.putConstraint(SpringLayout.WEST, resetBtn, 0, SpringLayout.WEST, dayList);
+		springLayout.putConstraint(SpringLayout.SOUTH, resetBtn, -33, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, resetBtn, 114, SpringLayout.WEST, dayList);
+		frame.getContentPane().add(resetBtn);
+		
+		JButton btnSave = new JButton("Save Weeks");
+		springLayout.putConstraint(SpringLayout.WEST, btnSave, 0, SpringLayout.WEST, dayList);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnSave, -6, SpringLayout.NORTH, resetBtn);
+		springLayout.putConstraint(SpringLayout.EAST, btnSave, 0, SpringLayout.EAST, resetBtn);
+		frame.getContentPane().add(btnSave);
+		
 		//create listeners for actions
 		//sets week to week chosen by user and displays notes
 		weekList.addMouseListener(new MouseAdapter() {
@@ -228,6 +245,7 @@ public class Frame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dailyNotes.setEditable(true);
+				daySubmit.setVisible(true);
 			}
 		});
 		//submits string from text pane into day chosen
@@ -236,6 +254,7 @@ public class Frame {
 			public void mouseClicked(MouseEvent e) {
 				s.weeks[week].setDay(dailyNotes.getText(), day);
 				dailyNotes.setEditable(false);
+				daySubmit.setVisible(false);
 			}
 		});
 		//allows you to edit Class name text
@@ -243,6 +262,7 @@ public class Frame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				className.setEditable(true);
+				nameSubmit.setVisible(true);
 			}
 		});
 		//submits Class name string to syllabus name
@@ -251,6 +271,7 @@ public class Frame {
 			public void mouseClicked(MouseEvent e) {
 				s.setName(className.getText());
 				className.setEditable(false);
+				nameSubmit.setVisible(false);
 			}
 		});
 		//allows to edit the weekly topic field
@@ -258,6 +279,7 @@ public class Frame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				weekTopic.setEditable(true);
+				topicSubmit.setVisible(true);
 			}
 		});
 		//submits the edit made to the weekly topic field to selected week
@@ -266,6 +288,25 @@ public class Frame {
 			public void mouseClicked(MouseEvent e) {
 				s.weeks[week].setTopic(weekTopic.getText());
 				weekTopic.setEditable(false);
+				topicSubmit.setVisible(false);
+			}
+		});
+		btnSave.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				origin.setState(s.weeks);
+				taker.addMemento(origin.save());
+			}
+		});
+		resetBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Week[] weeks= taker.getMemento().getState();
+				for(int i = 0; i < s.weeks.length; i++) {
+					s.weeks[i].setTopic(weeks[i].getTopic());
+					for (int j = 0; j < 7; j++)
+						s.weeks[i].setDay(weeks[i].getDay(j), j);
+				}
 			}
 		});
 	}
