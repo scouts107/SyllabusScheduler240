@@ -1,3 +1,4 @@
+package proxyExample;
 
 public class Syllabus {
 	private static Syllabus syllabus = null;
