@@ -1,3 +1,4 @@
+package proxyExample;
 
 public class Week {
 	private String[] days= new String[7];
