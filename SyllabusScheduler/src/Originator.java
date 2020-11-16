@@ -1,3 +1,5 @@
+package proxyExample;
+
 public class Originator {
    private Week[] state = new Week[17];
 
