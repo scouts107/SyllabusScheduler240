@@ -1,3 +1,4 @@
+package proxyExample;
 
 public class Memento {
 	private Week[] state;
