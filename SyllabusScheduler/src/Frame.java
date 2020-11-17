@@ -25,8 +25,8 @@ public class Frame {
 
 	private JFrame frame;
 	private Syllabus s = Syllabus.getInstance();
-	private int week = 100;
-	private int day = 8;
+	private int week = 0;
+	private int day = 0;
 	private Originator origin = new Originator(); 
 	private CareTaker taker = new CareTaker();
 	private JTextField className;
