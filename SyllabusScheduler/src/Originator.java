@@ -2,14 +2,15 @@ package proxyExample;
 
 public class Originator {
    private Week[] state = new Week[17];
+   private Syllabus s = Syllabus.getInstance();
 
-   public void setState(Week[] state){
-	   for (int i = 0; i < state.length; i++)
+   public void setState(){
+	   for (int i = 0; i < s.weeks.length; i++)
 			this.state[i] = new Week();
-	   for (int i = 0; i < state.length; i++) {
-		   this.state[i].setTopic(state[i].getTopic());
+	   for (int i = 0; i < s.weeks.length; i++) {
+		   this.state[i].setTopic(s.weeks[i].getTopic());
 		   for (int j = 0; j < 7; j++)
-			   this.state[i].setDay(state[i].getDay(j), j);
+			   this.state[i].setDay(s.weeks[i].getDay(j), j);
 	   }
    }
 
