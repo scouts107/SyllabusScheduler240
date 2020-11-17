@@ -296,7 +296,7 @@ public class Frame {
 		btnSave.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				origin.setState(s.weeks);
+				origin.setState();
 				taker.addMemento(origin.save());
 			}
 		});
